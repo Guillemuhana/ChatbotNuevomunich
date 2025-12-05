@@ -1,0 +1,24 @@
+{
+  "name": "whatsapp-cloud-openai",
+  "version": "1.0.0",
+  "description": "Bot de WhatsApp conectado con ChatGPT (OpenAI)",
+  "main": "bot.js",
+  "type": "module",
+  "scripts": {
+    "start": "node bot.js",
+    "dev": "nodemon bot.js"
+  },
+  "keywords": [],
+  "author": "Guillermo Muhana",
+  "license": "ISC",
+  "dependencies": {
+    "axios": "^1.7.0",
+    "body-parser": "^1.20.2",
+    "dotenv": "^16.4.5",
+    "express": "^4.19.2",
+    "openai": "^4.104.0"
+  },
+  "devDependencies": {
+    "nodemon": "^3.1.0"
+  }
+}

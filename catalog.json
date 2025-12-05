@@ -1,0 +1,215 @@
+{
+  "brand": "Nuevo Munich",
+  "about": "Empresa familiar dedicada a la elaboración artesanal de fiambres, embutidos y productos gourmet de primera calidad en Córdoba.",
+  "contact": {
+    "phone_display": "+54 9 351 559 0105",
+    "instagram": "https://www.instagram.com/nuevomunich/",
+    "website": "https://nuevomunich.com.ar/",
+    "maps": "https://maps.app.goo.gl/z8jWdzFwDhAj52ys8",
+    "address": "Av. Colón 5123, Córdoba Capital"
+  },
+  "hours": {
+    "mon_fri": "08:00–13:00 y 16:00–20:00",
+    "sat": "08:00–13:30",
+    "sun": null
+  },
+  "categories": [
+    {
+      "slug": "feteados",
+      "title": "🥩 Feteados",
+      "description": "Feteados artesanales envasados al vacío (~100 g). Ideales para tablas, picadas y sándwiches.",
+      "products": [
+        {
+          "slug": "bondiola",
+          "name": "Bondiola",
+          "desc": "Bondiola de cerdo curada, sabor equilibrado.",
+          "ingredients": "Bondiola de cerdo, pimienta negra, coriandro, sal y azúcar.",
+          "suggestions": "Tablas, picadas o sándwiches gourmet.",
+          "image": "https://nuevomunich.com.ar/wp-content/uploads/2024/04/S1A9449-Bondiola-FETEADO.jpg",
+          "keywords": ["bondiola", "bondiola feteado"]
+        },
+        {
+          "slug": "arrollado-de-pollo",
+          "name": "Arrollado de Pollo",
+          "desc": "Pollo relleno con jamón y huevo duro, receta artesanal.",
+          "ingredients": "Pechuga de pollo, jamón, huevo, zanahoria, ají molido, orégano.",
+          "suggestions": "Tablas o sándwiches.",
+          "image": "https://nuevomunich.com.ar/wp-content/uploads/2024/04/S1A9450-Arrollado-de-Pollo.jpg",
+          "keywords": ["arrollado de pollo", "arrollado pollo"]
+        },
+        {
+          "slug": "panceta-cocida-ahumada",
+          "name": "Panceta Cocida Ahumada Suave",
+          "desc": "Panceta de cerdo curada y ahumada con maderas naturales.",
+          "ingredients": "Panceta de cerdo, sal, especias.",
+          "suggestions": "Picadas o para cocinar.",
+          "image": "https://nuevomunich.com.ar/wp-content/uploads/2024/04/S1A9452-Panceta-Cocida-Ahumada-Suave.jpg",
+          "keywords": ["panceta", "panceta ahumada"]
+        },
+        {
+          "slug": "lomo-hervido-ahumado",
+          "name": "Lomo Hervido y Ahumado (Cebolla y Hierbas)",
+          "desc": "Lomo de cerdo con notas de cebolla y hierbas finas.",
+          "ingredients": "Lomo de cerdo, cebolla, hierbas finas, sal.",
+          "suggestions": "Picadas gourmet.",
+          "image": "https://nuevomunich.com.ar/wp-content/uploads/2024/04/S1A9454-Lomo-Hervido-y-Ahumado.jpg",
+          "keywords": ["lomo hervido", "lomo ahumado"]
+        },
+        {
+          "slug": "lomo-de-cerdo-cocido",
+          "name": "Lomo de Cerdo Cocido",
+          "desc": "Curado y cocido lentamente. Bajo en grasa.",
+          "ingredients": "Lomo de cerdo, sal, especias.",
+          "suggestions": "Sándwiches livianos.",
+          "image": "https://nuevomunich.com.ar/wp-content/uploads/2024/04/S1A9456-Lomo-de-Cerdo-Cocido.jpg",
+          "keywords": ["lomo cocido"]
+        },
+        {
+          "slug": "jamon-tipo-bavaro",
+          "name": "Jamón Tipo Bávaro Cocido",
+          "desc": "Paleta seleccionada, cocida, receta artesanal.",
+          "ingredients": "Paleta de cerdo, sal, especias.",
+          "suggestions": "Tablas y sándwiches.",
+          "image": "https://nuevomunich.com.ar/wp-content/uploads/2024/04/S1A9458-Jamon-Tipo-Paleta-Cocido.jpg",
+          "keywords": ["jamon tipo bavaro", "paleta cocida"]
+        },
+        {
+          "slug": "jamon-cocido",
+          "name": "Jamón Cocido",
+          "desc": "Jamón de cerdo cocido a baja temperatura para conservar jugosidad.",
+          "ingredients": "Jamón de cerdo, sal, especias.",
+          "suggestions": "Sándwiches y picadas.",
+          "image": "https://nuevomunich.com.ar/wp-content/uploads/2024/04/S1A9459-Jamon-Cocido.jpg",
+          "keywords": ["jamon cocido", "jamón cocido"]
+        },
+        {
+          "slug": "jamon-tipo-asado",
+          "name": "Jamón Tipo Asado",
+          "desc": "Cocido al horno con hierbas naturales y especias seleccionadas.",
+          "ingredients": "Jamón de cerdo, hierbas, sal.",
+          "suggestions": "Tablas y cocina gourmet.",
+          "image": "https://nuevomunich.com.ar/wp-content/uploads/2024/04/S1A9460-Jamon-Tipo-Asado.jpg",
+          "keywords": ["jamon tipo asado", "jamón asado"]
+        },
+        {
+          "slug": "arrollado-criollo",
+          "name": "Arrollado Criollo",
+          "desc": "Carne especiada y enrollada artesanalmente. Sabor auténtico criollo.",
+          "ingredients": "Carne vacuna/porcina, especias.",
+          "suggestions": "Picadas con carácter.",
+          "image": "https://nuevomunich.com.ar/wp-content/uploads/2024/04/S1A9461-Arrollado-Criollo.jpg",
+          "keywords": ["arrollado criollo"]
+        }
+      ]
+    },
+    {
+      "slug": "salames",
+      "title": "🌭 Salames",
+      "description": "Curados lentamente para sabor auténtico.",
+      "products": [
+        {
+          "slug": "salame-tipo-alpino-ahumado",
+          "name": "Salame Tipo Alpino Ahumado",
+          "desc": "Ahumado sutil estilo centroeuropeo.",
+          "ingredients": "Carne seleccionada, especias, sal.",
+          "suggestions": "Tablas y picadas.",
+          "image": null,
+          "keywords": ["salame alpino", "alpino ahumado"]
+        },
+        {
+          "slug": "salame-tipo-colonia",
+          "name": "Salame Tipo Colonia",
+          "desc": "Clásico sabor argentino.",
+          "ingredients": "Carne seleccionada, especias, sal.",
+          "suggestions": "Picadas.",
+          "image": null,
+          "keywords": ["salame colonia"]
+        },
+        {
+          "slug": "salame-holstein-ahumado",
+          "name": "Salame Holstein Ahumado",
+          "desc": "Notas ahumadas marcadas.",
+          "ingredients": "Carne seleccionada, especias, sal.",
+          "suggestions": "Tablas intensas.",
+          "image": null,
+          "keywords": ["salame holstein", "holstein ahumado"]
+        }
+      ]
+    },
+    {
+      "slug": "salchichas",
+      "title": "🌭 Salchichas",
+      "description": "Variedades artesanales para plato rápido o eventos.",
+      "products": [
+        {
+          "slug": "salchicha-tipo-viena",
+          "name": "Salchicha Tipo Viena",
+          "desc": "Clásica y suave.",
+          "ingredients": "Carne seleccionada, especias, sal.",
+          "suggestions": "Panchos y platos rápidos.",
+          "image": null,
+          "keywords": ["viena", "salchicha viena"]
+        },
+        {
+          "slug": "salchicha-tipo-knackwurst",
+          "name": "Salchicha Tipo Knackwurst",
+          "desc": "Textura firme, sabor marcado.",
+          "ingredients": "Carne seleccionada, especias, sal.",
+          "suggestions": "Parrilla o sartén.",
+          "image": null,
+          "keywords": ["knackwurst", "knack"]
+        },
+        {
+          "slug": "salchicha-hungara",
+          "name": "Salchicha Húngara",
+          "desc": "Toque especiado intenso.",
+          "ingredients": "Carne seleccionada, especias, sal.",
+          "suggestions": "Picadas o platos fuertes.",
+          "image": null,
+          "keywords": ["hungara", "húngara"]
+        }
+      ]
+    },
+    {
+      "slug": "ahumados",
+      "title": "🧂 Ahumados",
+      "description": "Ahumados con maderas naturales para sabor distintivo.",
+      "products": [
+        {
+          "slug": "panceta-ahumada",
+          "name": "Panceta Ahumada",
+          "desc": "Ahumado natural, versátil para cocina.",
+          "ingredients": "Panceta, sal, especias.",
+          "suggestions": "Cocina y picadas.",
+          "image": null,
+          "keywords": ["panceta ahumada"]
+        },
+        {
+          "slug": "lomito-ahumado",
+          "name": "Lomito Ahumado",
+          "desc": "Ahumado delicado, bajo en grasa.",
+          "ingredients": "Lomito, sal, especias.",
+          "suggestions": "Sándwiches gourmet.",
+          "image": null,
+          "keywords": ["lomito ahumado"]
+        }
+      ]
+    },
+    {
+      "slug": "quesos",
+      "title": "🧀 Quesos",
+      "description": "Quesos saborizados para completar tu tabla gourmet.",
+      "products": [
+        {
+          "slug": "quesos-saborizados",
+          "name": "Quesos Saborizados",
+          "desc": "Variedades con orégano, pimienta y especias suaves.",
+          "ingredients": "Leche, fermentos, sal, especias.",
+          "suggestions": "Tablas y picadas.",
+          "image": null,
+          "keywords": ["queso saborizado", "quesos"]
+        }
+      ]
+    }
+  ]
+}

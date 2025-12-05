@@ -1,0 +1,186 @@
+{
+  "brand": "Nuevo Munich",
+  "about": "Fiambres y especialidades de elaboración artesanal con tradición centroeuropea desde 1972.",
+  "catalog_pdf": "https://drive.google.com/file/d/1OZSG_BzpfMhgCvUyeFjgOkSEZZhI8T2k/view",
+  "contact": {
+    "phone_display": "+54 9 351 701-0545",
+    "instagram": "https://www.instagram.com/nuevomunich/",
+    "website": "https://nuevomunich.com.ar/",
+    "linktree": "https://linktr.ee/nuevomunich",
+    "email": "ventas@nuevomunich.com.ar",
+    "address": "Córdoba, Argentina",
+    "maps": "https://maps.app.goo.gl/z8jWdzFwDhAj52ys8"
+  },
+  "hours": {
+    "mon_fri": "08:00–13:00 y 16:00–20:00",
+    "sat": "08:00–13:30",
+    "sun": null
+  },
+  "categories": [
+    {
+      "slug": "feteados",
+      "title": "🥩 Feteados",
+      "description": "Feteados artesanales al vacío. Ideales para tablas y sándwiches.",
+      "products": [
+        {
+          "slug": "bondiola",
+          "name": "Bondiola",
+          "desc": "Curada y especiada, sabor equilibrado y aroma suave.",
+          "ingredients": "Bondiola de cerdo, sal, pimienta, coriandro, azúcar.",
+          "suggestions": "Tablas, picadas y sándwiches gourmet.",
+          "presentations": ["Feteado al vacío (~100 g)", "Pieza"],
+          "storage": "Heladera 0–5 °C. No dejar a temperatura ambiente.",
+          "shelf_life": "Ver rótulo según partida. Consumir dentro de 48 h una vez abierto.",
+          "gluten_free": false,
+          "image": "https://nuevomunich.com.ar/wp-content/uploads/2024/04/S1A9449-Bondiola-FETEADO.jpg",
+          "keywords": ["bondiola", "bondiola feteado", "bondiola fiambre"]
+        },
+        {
+          "slug": "jamon-cocido",
+          "name": "Jamón Cocido",
+          "desc": "Cocción lenta para mayor jugosidad.",
+          "ingredients": "Jamón de cerdo, sal, especias.",
+          "suggestions": "Sándwiches, tostados, picadas.",
+          "presentations": ["Feteado al vacío (~100 g)", "Pieza"],
+          "storage": "Heladera 0–5 °C.",
+          "shelf_life": "Según rótulo. 48 h una vez abierto.",
+          "gluten_free": false,
+          "image": null,
+          "keywords": ["jamon", "jamón", "jamon cocido"]
+        },
+        {
+          "slug": "lomo-de-cerdo-cocido",
+          "name": "Lomo de Cerdo Cocido",
+          "desc": "Bajo en grasa, sabor suave.",
+          "ingredients": "Lomo de cerdo, sal, especias.",
+          "suggestions": "Sándwiches livianos y ensaladas.",
+          "presentations": ["Feteado al vacío (~100 g)", "Pieza"],
+          "storage": "Heladera 0–5 °C.",
+          "shelf_life": "Según rótulo. 48 h una vez abierto.",
+          "gluten_free": false,
+          "image": null,
+          "keywords": ["lomo cocido", "lomito cocido"]
+        }
+      ]
+    },
+    {
+      "slug": "salames",
+      "title": "🌭 Salames",
+      "description": "Curados lentamente para sabor auténtico.",
+      "products": [
+        {
+          "slug": "salame-tipo-colonia",
+          "name": "Salame Tipo Colonia",
+          "desc": "Clásico de sabor argentino.",
+          "ingredients": "Carne seleccionada, sal, especias.",
+          "suggestions": "Tablas y picadas.",
+          "presentations": ["Pieza", "Rodajas al vacío"],
+          "storage": "Lugar fresco o heladera. Abrir y airear unos minutos antes de consumir.",
+          "shelf_life": "Según rótulo.",
+          "gluten_free": false,
+          "image": null,
+          "keywords": ["salame colonia", "salame"]
+        },
+        {
+          "slug": "salame-holstein-ahumado",
+          "name": "Salame Holstein Ahumado",
+          "desc": "Notas ahumadas marcadas, estilo centroeuropeo.",
+          "ingredients": "Carne seleccionada, sal, especias.",
+          "suggestions": "Tablas intensas.",
+          "presentations": ["Pieza", "Rodajas al vacío"],
+          "storage": "Lugar fresco o heladera.",
+          "shelf_life": "Según rótulo.",
+          "gluten_free": false,
+          "image": null,
+          "keywords": ["salame holstein", "holstein ahumado"]
+        }
+      ]
+    },
+    {
+      "slug": "salchichas",
+      "title": "🥖 Salchichas",
+      "description": "Variedades artesanales para platos rápidos y eventos.",
+      "products": [
+        {
+          "slug": "salchicha-tipo-viena",
+          "name": "Salchicha Tipo Viena",
+          "desc": "Clásica y suave.",
+          "ingredients": "Carne seleccionada, sal, especias.",
+          "suggestions": "Panchos y platos rápidos.",
+          "presentations": ["Pack x unidades"],
+          "storage": "Heladera 0–5 °C. Puede freezarse.",
+          "shelf_life": "Según rótulo.",
+          "gluten_free": false,
+          "image": null,
+          "keywords": ["viena", "salchicha viena", "panchos"]
+        },
+        {
+          "slug": "salchicha-tipo-knackwurst",
+          "name": "Salchicha Tipo Knackwurst",
+          "desc": "Textura firme, sabor marcado.",
+          "ingredients": "Carne seleccionada, sal, especias.",
+          "suggestions": "Parrilla o sartén.",
+          "presentations": ["Pack x unidades"],
+          "storage": "Heladera 0–5 °C. Puede freezarse.",
+          "shelf_life": "Según rótulo.",
+          "gluten_free": false,
+          "image": null,
+          "keywords": ["knackwurst", "knack"]
+        }
+      ]
+    },
+    {
+      "slug": "ahumados",
+      "title": "🧂 Ahumados",
+      "description": "Ahumados con maderas naturales para un sabor distintivo.",
+      "products": [
+        {
+          "slug": "panceta-ahumada",
+          "name": "Panceta Ahumada",
+          "desc": "Ahumado natural, súper versátil.",
+          "ingredients": "Panceta de cerdo, sal, especias.",
+          "suggestions": "Cocina y picadas.",
+          "presentations": ["Feteado al vacío (~100 g)", "Pieza"],
+          "storage": "Heladera 0–5 °C.",
+          "shelf_life": "Según rótulo.",
+          "gluten_free": false,
+          "image": null,
+          "keywords": ["panceta ahumada", "panceta"]
+        },
+        {
+          "slug": "lomito-ahumado",
+          "name": "Lomito Ahumado",
+          "desc": "Ahumado delicado, bajo en grasa.",
+          "ingredients": "Lomito de cerdo, sal, especias.",
+          "suggestions": "Sándwiches gourmet.",
+          "presentations": ["Feteado al vacío (~100 g)", "Pieza"],
+          "storage": "Heladera 0–5 °C.",
+          "shelf_life": "Según rótulo.",
+          "gluten_free": false,
+          "image": null,
+          "keywords": ["lomito ahumado", "lomo ahumado"]
+        }
+      ]
+    },
+    {
+      "slug": "quesos",
+      "title": "🧀 Quesos",
+      "description": "Quesos saborizados para completar tu tabla.",
+      "products": [
+        {
+          "slug": "quesos-saborizados",
+          "name": "Quesos Saborizados",
+          "desc": "Variedades con pimienta, orégano y especias suaves.",
+          "ingredients": "Leche, fermentos, sal, especias.",
+          "suggestions": "Tablas y picadas.",
+          "presentations": ["Pieza chica", "Cortes al vacío"],
+          "storage": "Heladera 0–5 °C.",
+          "shelf_life": "Según rótulo.",
+          "gluten_free": false,
+          "image": null,
+          "keywords": ["queso saborizado", "quesos"]
+        }
+      ]
+    }
+  ]
+}
