@@ -1,3 +1,4 @@
+// server.js
 import express from "express";
 import bodyParser from "body-parser";
 import dotenv from "dotenv";
@@ -38,13 +39,14 @@ app.get("/webhook", (req, res) => {
   const token = req.query["hub.verify_token"];
   const challenge = req.query["hub.challenge"];
 
-  console.log("📩 Verificación Webhook:", { mode, token, challenge });
-
-  if (mode === "subscribe" && token === VERIFY_TOKEN) {
-    return res.status(200).send(challenge);
+  if (mode && token) {
+    if (mode === "subscribe" && token === VERIFY_TOKEN) {
+      return res.status(200).send(challenge);
+    } else {
+      return res.sendStatus(403);
+    }
   }
-
-  return res.sendStatus(403);
+  return res.sendStatus(400);
 });
 
 // --------------------------------------------------
@@ -72,21 +74,33 @@ app.post("/webhook", async (req, res) => {
     if (!msg) return res.sendStatus(200);
     const lower = msg.toLowerCase();
 
+    // --------------------------------------------------
+    // SALUDO → BIENVENIDA
+    // --------------------------------------------------
     if (["hola", "buenas", "menu", "menú", "inicio", "start"].includes(lower)) {
       await sendBienvenida(from);
       return res.sendStatus(200);
     }
 
+    // --------------------------------------------------
+    // MENÚ PRINCIPAL
+    // --------------------------------------------------
     if (msg === "MENU_PRINCIPAL") {
       await sendMenuPrincipal(from);
       return res.sendStatus(200);
     }
 
+    // --------------------------------------------------
+    // CHAT CON VENTAS
+    // --------------------------------------------------
     if (msg === "CHAT_VENTAS") {
       await sendChatConVentas(from);
       return res.sendStatus(200);
     }
 
+    // --------------------------------------------------
+    // PRODUCTOS
+    // --------------------------------------------------
     if (msg === "CAT_PRODUCTOS") {
       await sendCategoriaProductos(from);
       return res.sendStatus(200);
@@ -102,36 +116,54 @@ app.post("/webhook", async (req, res) => {
       return res.sendStatus(200);
     }
 
+    // --------------------------------------------------
+    // FOOD TRUCK
+    // --------------------------------------------------
     if (msg === "FOOD_TRUCK") {
       await sendFoodTruck(from);
       return res.sendStatus(200);
     }
 
+    // --------------------------------------------------
+    // CATÁLOGO PDF
+    // --------------------------------------------------
     if (msg === "CATALOGO_PDF") {
       await sendCatalogoCompleto(from);
       return res.sendStatus(200);
     }
 
+    // --------------------------------------------------
+    // INICIO PEDIDO
+    // --------------------------------------------------
     if (msg === "INICIO_PEDIDO") {
       await sendInicioPedidoOpciones(from);
       return res.sendStatus(200);
     }
 
+    // --------------------------------------------------
+    // DATOS DEL CLIENTE
+    // --------------------------------------------------
     if (msg.startsWith("PEDIDO_")) {
       const tipo = msg.replace("PEDIDO_", "").toLowerCase();
       await pedirDatosDelCliente(from, tipo);
       return res.sendStatus(200);
     }
 
+    // --------------------------------------------------
+    // CONFIRMAR PEDIDO
+    // --------------------------------------------------
     if (msg.startsWith("CONFIRMAR_")) {
       const resumen = msg.replace("CONFIRMAR_", "");
       await sendPedidoConfirmacionCliente(from, resumen);
       return res.sendStatus(200);
     }
 
+    // --------------------------------------------------
+    // IA PARA TODO LO DEMÁS
+    // --------------------------------------------------
     await sendRespuestaIA(from, msg);
-    return res.sendStatus(200);
 
+    return res.sendStatus(200);
   } catch (err) {
     console.error("❌ ERROR WEBHOOK:", err);
     return res.sendStatus(500);
@@ -139,9 +171,9 @@ app.post("/webhook", async (req, res) => {
 });
 
 // --------------------------------------------------
-// SERVIDOR (IMPORTANTE PARA RAILWAY)
+// SERVIDOR
 // --------------------------------------------------
 const PORT = process.env.PORT || 3000;
-app.listen(PORT, "0.0.0.0", () => {
-  console.log(`🚀 Servidor activo escuchando en puerto ${PORT}`);
-});
+app.listen(PORT, () =>
+  console.log(`BOT LISTO → Servidor activo en puerto ${PORT}`)
+);
