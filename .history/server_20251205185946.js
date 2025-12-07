@@ -31,31 +31,19 @@ app.get("/", (req, res) => {
 });
 
 // --------------------------------------------------
-// VERIFICACIÓN WEBHOOK FACEBOOK
+// VERIFICACIÓN WEBHOOK
 // --------------------------------------------------
 app.get("/webhook", (req, res) => {
   const mode = req.query["hub.mode"];
   const token = req.query["hub.verify_token"];
   const challenge = req.query["hub.challenge"];
 
-  console.log("📩 Petición de verificación:", {
-    mode,
-    token,
-    challenge,
-    VERIFY_TOKEN
-  });
-
-  if (!mode || !token) {
-    console.log("⚠ No llegaron los parámetros requeridos");
-    return res.sendStatus(400);
-  }
+  console.log("📩 Verificación Webhook:", { mode, token, challenge });
 
   if (mode === "subscribe" && token === VERIFY_TOKEN) {
-    console.log("✔ Webhook verificado correctamente!");
     return res.status(200).send(challenge);
   }
 
-  console.log("❌ Token de verificación INCORRECTO");
   return res.sendStatus(403);
 });
 
@@ -83,8 +71,6 @@ app.post("/webhook", async (req, res) => {
 
     if (!msg) return res.sendStatus(200);
     const lower = msg.toLowerCase();
-
-    console.log("📬 Mensaje recibido:", lower);
 
     if (["hola", "buenas", "menu", "menú", "inicio", "start"].includes(lower)) {
       await sendBienvenida(from);
