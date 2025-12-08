@@ -20,32 +20,45 @@ import {
 const app = express();
 app.use(bodyParser.json());
 
-// Token que definiste en Railway
 const VERIFY_TOKEN = process.env.WEBHOOK_VERIFY_TOKEN;
 
+// ---------------------------------------------
 // TEST SERVER
+// ---------------------------------------------
 app.get("/", (req, res) => {
   res.status(200).send("🚀 Nuevo Munich bot online!");
 });
 
-// VERIFICACIÓN WEBHOOK META
+// ---------------------------------------------
+// VERIFICACIÓN WEBHOOK (GET)
+// ---------------------------------------------
 app.get("/webhook", (req, res) => {
   const mode = req.query["hub.mode"];
   const token = req.query["hub.verify_token"];
   const challenge = req.query["hub.challenge"];
 
-  console.log("Webhook Verification ->", { mode, token, challenge });
+  console.log("📩 Intento de verificación:", { mode, token, challenge });
+
+  if (!mode || !token) {
+    return res.sendStatus(400);
+  }
 
   if (mode === "subscribe" && token === VERIFY_TOKEN) {
+    console.log("✔ Webhook verificado correctamente");
     return res.status(200).send(challenge);
   }
 
+  console.log("❌ Token incorrecto:", token);
   return res.sendStatus(403);
 });
 
-// RECEPCION DE MENSAJES
+// ---------------------------------------------
+// RECEPCIÓN DE MENSAJES (POST)
+// ---------------------------------------------
 app.post("/webhook", async (req, res) => {
   try {
+    console.log("📨 Body recibido:", JSON.stringify(req.body, null, 2));
+
     const entry = req.body.entry?.[0];
     const value = entry?.changes?.[0]?.value;
     const message = value?.messages?.[0];
@@ -54,19 +67,20 @@ app.post("/webhook", async (req, res) => {
 
     const from = message.from;
     const type = message.type;
-
     let msg = null;
+
     if (type === "text") msg = message.text?.body;
     if (type === "interactive") {
       const inter = message.interactive;
-      if (inter.type === "button_reply") msg = inter.button_reply.id;
-      if (inter.type === "list_reply") msg = inter.list_reply.id;
+      if (inter?.type === "button_reply") msg = inter.button_reply.id;
+      if (inter?.type === "list_reply") msg = inter.list_reply.id;
     }
 
     if (!msg) return res.sendStatus(200);
 
+    console.log("📬 Mensaje recibido:", msg);
+
     const lower = msg.toLowerCase();
-    console.log("📩 Mensaje recibido:", lower);
 
     if (["hola", "buenas", "menu", "menú", "inicio", "start"].includes(lower)) {
       await sendBienvenida(from);
@@ -88,10 +102,7 @@ app.post("/webhook", async (req, res) => {
       return res.sendStatus(200);
     }
 
-    if (
-      ["CAT_FETEADOS", "CAT_SALAMES", "CAT_SALCHICHAS", "CAT_ESPECIALIDADES"]
-        .includes(msg)
-    ) {
+    if (["CAT_FETEADOS", "CAT_SALAMES", "CAT_SALCHICHAS", "CAT_ESPECIALIDADES"].includes(msg)) {
       await sendSubcategoria(from, msg);
       return res.sendStatus(200);
     }
@@ -127,13 +138,16 @@ app.post("/webhook", async (req, res) => {
     return res.sendStatus(200);
 
   } catch (err) {
-    console.error("🔥 ERROR WEBHOOK:", err);
+    console.error("❌ ERROR EN WEBHOOK:", err);
     return res.sendStatus(500);
   }
 });
 
-// SERVIDOR RAILWAY
-const PORT = process.env.PORT || 3000;
+// ---------------------------------------------
+// SERVIDOR
+// ---------------------------------------------
+const PORT = process.env.PORT || 8080;
+
 app.listen(PORT, "0.0.0.0", () => {
-  console.log(`🚀 Servidor activo en puerto ${PORT}`);
+  console.log(`🔥 LISTO! Servidor escuchando en puerto ${PORT}`);
 });
