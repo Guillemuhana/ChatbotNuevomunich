@@ -1,81 +1,172 @@
-// server.js - versión mínima solo para probar el webhook
-
+// server.js
 import express from "express";
+import bodyParser from "body-parser";
 import dotenv from "dotenv";
 
 dotenv.config();
 
 const app = express();
+app.use(bodyParser.json());
 
-// Para leer JSON en los POST
-app.use(express.json());
+// 👇 ESTE TOKEN DEBE SER IGUAL AL QUE PONES EN META
+const VERIFY_TOKEN = process.env.WEBHOOK_VERIFY_TOKEN || "guille1234";
 
-// 🔑 Token que tenés en Railway (WEBHOOK_VERIFY_TOKEN)
-const VERIFY_TOKEN = process.env.WEBHOOK_VERIFY_TOKEN || "NO_TOKEN_SET";
+// ---------------------------------------------------
+// Cargar bot.js de forma segura (que no tumbe el server)
+// ---------------------------------------------------
+let handlers = {};
 
-console.log("🚀 Iniciando servidor...");
-console.log("WEBHOOK_VERIFY_TOKEN =", VERIFY_TOKEN);
+(async () => {
+  try {
+    handlers = await import("./bot.js");
+    console.log("✅ bot.js cargado correctamente");
+  } catch (err) {
+    console.error("❌ ERROR cargando bot.js (pero el servidor sigue vivo):", err);
+    handlers = {}; // dejamos un objeto vacío para no romper nada
+  }
+})();
 
-// --------------------------------------------------
-// RUTA DE TEST
-// --------------------------------------------------
+// Helpers por si alguna función no existe
+const safe = (fnName) => {
+  const fn = handlers[fnName];
+  if (typeof fn === "function") return fn;
+  return async () => {
+    console.warn(`⚠ Handler ${fnName} no está definido en bot.js`);
+  };
+};
+
+// ---------------------------------------------------
+// HEALTHCHECK
+// ---------------------------------------------------
 app.get("/", (req, res) => {
-  console.log("GET /");
-  res.status(200).send("✅ Nuevo Munich bot online (test simple)");
+  res.status(200).send("🚀 Nuevo Munich bot online (server.js OK)");
 });
 
-// --------------------------------------------------
-// VERIFICACIÓN WEBHOOK (GET /webhook)
-// --------------------------------------------------
+// ---------------------------------------------------
+// VERIFICACIÓN WEBHOOK - META
+// ---------------------------------------------------
 app.get("/webhook", (req, res) => {
   const mode = req.query["hub.mode"];
   const token = req.query["hub.verify_token"];
   const challenge = req.query["hub.challenge"];
 
-  console.log("👉 GET /webhook (verificación)", {
-    mode,
-    token,
-    challenge,
-    VERIFY_TOKEN,
-  });
+  console.log("🔎 Verificación Webhook:", { mode, token, challenge, VERIFY_TOKEN });
 
   if (!mode || !token) {
-    return res.status(400).send("Faltan parámetros");
+    return res.sendStatus(400);
   }
 
-  if (mode === "subscribe" && token === VERIFY_TOKEN && challenge) {
+  if (mode === "subscribe" && token === VERIFY_TOKEN) {
     console.log("✅ Webhook verificado correctamente");
-    // Meta espera que respondamos SOLO el challenge como texto plano
     return res.status(200).send(challenge);
   }
 
-  console.log("❌ Token o modo incorrecto");
-  return res.status(403).send("Token inválido");
+  console.log("❌ Token de verificación incorrecto");
+  return res.sendStatus(403);
 });
 
-// --------------------------------------------------
-// RECEPCIÓN MENSAJES (POST /webhook) – por ahora solo log
-// --------------------------------------------------
-app.post("/webhook", (req, res) => {
-  console.log("📩 POST /webhook body =", JSON.stringify(req.body, null, 2));
-  // De momento solo respondemos 200 para que Meta no se queje
-  return res.sendStatus(200);
+// ---------------------------------------------------
+// RECEPCIÓN DE MENSAJES WHATSAPP
+// ---------------------------------------------------
+app.post("/webhook", async (req, res) => {
+  try {
+    const entry = req.body.entry?.[0];
+    const value = entry?.changes?.[0]?.value;
+    const message = value?.messages?.[0];
+
+    if (!message) {
+      return res.sendStatus(200);
+    }
+
+    const from = message.from;
+    const type = message.type;
+
+    let msg = null;
+
+    if (type === "text") {
+      msg = message.text?.body;
+    } else if (type === "interactive") {
+      const inter = message.interactive;
+      if (inter.type === "button_reply") msg = inter.button_reply.id;
+      if (inter.type === "list_reply") msg = inter.list_reply.id;
+    }
+
+    if (!msg) return res.sendStatus(200);
+
+    const lower = msg.toLowerCase();
+    console.log("📩 Mensaje recibido:", { from, type, msg });
+
+    // ---- FLUJO DEL BOT ----
+    if (["hola", "buenas", "menu", "menú", "inicio", "start"].includes(lower)) {
+      await safe("sendBienvenida")(from);
+      return res.sendStatus(200);
+    }
+
+    if (msg === "MENU_PRINCIPAL") {
+      await safe("sendMenuPrincipal")(from);
+      return res.sendStatus(200);
+    }
+
+    if (msg === "CHAT_VENTAS") {
+      await safe("sendChatConVentas")(from);
+      return res.sendStatus(200);
+    }
+
+    if (msg === "CAT_PRODUCTOS") {
+      await safe("sendCategoriaProductos")(from);
+      return res.sendStatus(200);
+    }
+
+    if (
+      msg === "CAT_FETEADOS" ||
+      msg === "CAT_SALAMES" ||
+      msg === "CAT_SALCHICHAS" ||
+      msg === "CAT_ESPECIALIDADES"
+    ) {
+      await safe("sendSubcategoria")(from, msg);
+      return res.sendStatus(200);
+    }
+
+    if (msg === "FOOD_TRUCK") {
+      await safe("sendFoodTruck")(from);
+      return res.sendStatus(200);
+    }
+
+    if (msg === "CATALOGO_PDF") {
+      await safe("sendCatalogoCompleto")(from);
+      return res.sendStatus(200);
+    }
+
+    if (msg === "INICIO_PEDIDO") {
+      await safe("sendInicioPedidoOpciones")(from);
+      return res.sendStatus(200);
+    }
+
+    if (msg.startsWith("PEDIDO_")) {
+      const tipo = msg.replace("PEDIDO_", "").toLowerCase();
+      await safe("pedirDatosDelCliente")(from, tipo);
+      return res.sendStatus(200);
+    }
+
+    if (msg.startsWith("CONFIRMAR_")) {
+      const resumen = msg.replace("CONFIRMAR_", "");
+      await safe("sendPedidoConfirmacionCliente")(from, resumen);
+      return res.sendStatus(200);
+    }
+
+    // Por defecto -> IA
+    await safe("sendRespuestaIA")(from, msg);
+    return res.sendStatus(200);
+  } catch (err) {
+    console.error("🔥 ERROR en /webhook:", err);
+    // Respondemos 200 igualmente para que Meta no repita el mismo evento
+    return res.sendStatus(200);
+  }
 });
 
-// --------------------------------------------------
-// MANEJO DE ERRORES GLOBALES (para ver por qué se cae)
-// --------------------------------------------------
-process.on("uncaughtException", (err) => {
-  console.error("💥 uncaughtException:", err);
-});
-
-process.on("unhandledRejection", (reason) => {
-  console.error("💥 unhandledRejection:", reason);
-});
-
-// --------------------------------------------------
-// LEVANTAR SERVIDOR EN RAILWAY
-// --------------------------------------------------
+// ---------------------------------------------------
+// SERVIDOR EN RAILWAY
+// ---------------------------------------------------
 const PORT = process.env.PORT || 8080;
 
 app.listen(PORT, "0.0.0.0", () => {
