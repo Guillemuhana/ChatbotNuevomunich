@@ -20,10 +20,8 @@ import {
 const app = express();
 app.use(bodyParser.json());
 
-// Token que definiste en Railway
 const VERIFY_TOKEN = process.env.WEBHOOK_VERIFY_TOKEN;
 
-// TEST SERVER
 app.get("/", (req, res) => {
   res.status(200).send("🚀 Nuevo Munich bot online!");
 });
@@ -43,7 +41,7 @@ app.get("/webhook", (req, res) => {
   return res.sendStatus(403);
 });
 
-// RECEPCION DE MENSAJES
+// MENSAJES DE WHATSAPP
 app.post("/webhook", async (req, res) => {
   try {
     const entry = req.body.entry?.[0];
@@ -132,8 +130,8 @@ app.post("/webhook", async (req, res) => {
   }
 });
 
-// SERVIDOR RAILWAY
-const PORT = process.env.PORT || 8080;
+// PORT CORREGIDO 🚀
+const PORT = process.env.PORT || 3000;
 app.listen(PORT, "0.0.0.0", () => {
   console.log(`🚀 Servidor activo en puerto ${PORT}`);
 });
