@@ -27,13 +27,13 @@ app.get("/", (req, res) => {
   res.status(200).send("🚀 Nuevo Munich bot online!");
 });
 
-// VERIFICACIÓN WEBHOOK META
+// VERIFICACIÓN DE WEBHOOK PARA META
 app.get("/webhook", (req, res) => {
   const mode = req.query["hub.mode"];
   const token = req.query["hub.verify_token"];
   const challenge = req.query["hub.challenge"];
 
-  console.log("Webhook Verification ->", { mode, token, challenge });
+  console.log("Webhook Verification:", { mode, token, challenge });
 
   if (mode === "subscribe" && token === VERIFY_TOKEN) {
     return res.status(200).send(challenge);
