@@ -23,7 +23,7 @@ app.get("/", (req, res) => res.status(200).send("OK - Nuevo Munich Bot"));
 app.get("/health", (req, res) => res.status(200).json({ status: "ok" }));
 app.get("/favicon.ico", (req, res) => res.sendStatus(204));
 
-// Verificación webhook Meta
+// Verificaciï¿½n webhook Meta
 app.get("/webhook", (req, res) => {
   try {
     const mode = req.query["hub.mode"];
@@ -40,7 +40,7 @@ app.get("/webhook", (req, res) => {
   }
 });
 
-// Recepción mensajes (RESPONDE 200 INMEDIATO SIEMPRE)
+// Recepciï¿½n mensajes (RESPONDE 200 INMEDIATO SIEMPRE)
 app.post("/webhook", (req, res) => {
   res.sendStatus(200);
 
@@ -69,7 +69,7 @@ app.post("/webhook", (req, res) => {
 
       const lower = String(msg).toLowerCase().trim();
 
-      if (["hola", "buenas", "menu", "menú", "inicio", "start"].includes(lower)) {
+      if (["hola", "buenas", "menu", "menï¿½", "inicio", "start"].includes(lower)) {
         await bot.sendBienvenida(from);
         return;
       }
@@ -107,5 +107,19 @@ app.post("/webhook", (req, res) => {
 // Start server (Railway)
 const PORT = process.env.PORT || 8080;
 app.listen(PORT, "0.0.0.0", () => {
-  console.log(`Server running on port ${PORT}`);
+  console.log(`?? Server running on port ${PORT}`);
+});
+process.on("uncaughtException", err => {
+  console.error("UNCAUGHT EXCEPTION:", err);
+});
+
+process.on("unhandledRejection", err => {
+  console.error("UNHANDLED REJECTION:", err);
+});
+process.on("uncaughtException", err => {
+  console.error("UNCAUGHT EXCEPTION:", err);
+});
+
+process.on("unhandledRejection", err => {
+  console.error("UNHANDLED REJECTION:", err);
 });
