@@ -135,3 +135,9 @@ const PORT = process.env.PORT || 8080;
 app.listen(PORT, "0.0.0.0", () => {
   console.log(`🚀 Servidor activo en puerto ${PORT}`);
 });
+
+
+app.get("/", (req, res) => {
+  res.status(200).send("Chatbot Nuevo Munich OK");
+});
+
