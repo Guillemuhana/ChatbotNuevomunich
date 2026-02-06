@@ -108,3 +108,5 @@ app.listen(PORT, "0.0.0.0", () => {
 });
 
 console.log("=== SERVER FILE LOADED ===");
+process.on("uncaughtException", err => { console.error("UNCAUGHT EXCEPTION:", err); });
+process.on("unhandledRejection", err => { console.error("UNHANDLED REJECTION:", err); });
