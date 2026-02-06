@@ -141,3 +141,4 @@ app.get("/", (req, res) => {
   res.status(200).send("Chatbot Nuevo Munich OK");
 });
 
+console.log("=== SERVER FILE LOADED ===");
