@@ -1,6 +1,7 @@
-import express from "express";
-import bodyParser from "body-parser";
-import dotenv from "dotenv";
+import express from 'express';
+import bodyParser from 'body-parser';
+import dotenv from 'dotenv';
+
 dotenv.config();
 
 import {
@@ -15,78 +16,99 @@ import {
   sendPedidoConfirmacionCliente,
   sendChatConVentas,
   sendRespuestaIA
-} from "./bot.js";
+} from './bot.js';
 
 const app = express();
-app.use(bodyParser.json({ limit: "5mb" }));
+app.use(bodyParser.json());
 
-// ================= HEALTH CHECK =================
-app.get("/", (req, res) => {
-  res.status(200).send("?? Nuevo Munich bot ONLINE");
+// ROOT
+app.get('/', (req, res) => {
+  res.status(200).send('OK - Chatbot Nuevo Munich');
 });
 
-// ================= WEBHOOK VERIFY =================
-const VERIFY_TOKEN = process.env.WEBHOOK_VERIFY_TOKEN;
+// HEALTH (Railway lo necesita)
+app.get('/health', (req, res) => {
+  res.status(200).json({ status: 'ok' });
+});
 
-app.get("/webhook", (req, res) => {
-  const mode = req.query["hub.mode"];
-  const token = req.query["hub.verify_token"];
-  const challenge = req.query["hub.challenge"];
+// WEBHOOK VERIFY
+app.get('/webhook', (req, res) => {
+  const mode = req.query['hub.mode'];
+  const token = req.query['hub.verify_token'];
+  const challenge = req.query['hub.challenge'];
 
-  if (mode === "subscribe" && token === VERIFY_TOKEN) {
+  if (mode === 'subscribe' && token === process.env.WEBHOOK_VERIFY_TOKEN) {
     return res.status(200).send(challenge);
   }
+
   return res.sendStatus(403);
 });
 
-// ================= WEBHOOK RECEIVE =================
-app.post("/webhook", async (req, res) => {
+// WEBHOOK RECEIVE
+app.post('/webhook', async (req, res) => {
   try {
     const entry = req.body.entry?.[0];
     const value = entry?.changes?.[0]?.value;
     const message = value?.messages?.[0];
+
     if (!message) return res.sendStatus(200);
 
     const from = message.from;
+    const type = message.type;
+
     let msg = null;
 
-    if (message.type === "text") msg = message.text.body;
-    if (message.type === "interactive") {
-      const i = message.interactive;
-      if (i.type === "button_reply") msg = i.button_reply.id;
-      if (i.type === "list_reply") msg = i.list_reply.id;
+    if (type === 'text') msg = message.text?.body;
+    if (type === 'interactive') {
+      if (message.interactive?.button_reply)
+        msg = message.interactive.button_reply.id;
+      if (message.interactive?.list_reply)
+        msg = message.interactive.list_reply.id;
     }
 
     if (!msg) return res.sendStatus(200);
+
     const lower = msg.toLowerCase();
+    console.log('?? Mensaje:', lower);
 
-    if (["hola","menu","inicio","start"].includes(lower)) return sendBienvenida(from), res.sendStatus(200);
-    if (msg === "MENU_PRINCIPAL") return sendMenuPrincipal(from), res.sendStatus(200);
-    if (msg === "CHAT_VENTAS") return sendChatConVentas(from), res.sendStatus(200);
-    if (msg === "CAT_PRODUCTOS") return sendCategoriaProductos(from), res.sendStatus(200);
-    if (["CAT_FETEADOS","CAT_SALAMES","CAT_SALCHICHAS","CAT_ESPECIALIDADES"].includes(msg))
-      return sendSubcategoria(from, msg), res.sendStatus(200);
-    if (msg === "FOOD_TRUCK") return sendFoodTruck(from), res.sendStatus(200);
-    if (msg === "CATALOGO_PDF") return sendCatalogoCompleto(from), res.sendStatus(200);
-    if (msg === "INICIO_PEDIDO") return sendInicioPedidoOpciones(from), res.sendStatus(200);
-    if (msg.startsWith("PEDIDO_")) return pedirDatosDelCliente(from, msg), res.sendStatus(200);
-    if (msg.startsWith("CONFIRMAR_")) return sendPedidoConfirmacionCliente(from, msg), res.sendStatus(200);
+    if (['hola','menu','inicio','start'].includes(lower)) {
+      await sendBienvenida(from);
+    } else if (msg === 'MENU_PRINCIPAL') {
+      await sendMenuPrincipal(from);
+    } else if (msg === 'CHAT_VENTAS') {
+      await sendChatConVentas(from);
+    } else if (msg === 'CAT_PRODUCTOS') {
+      await sendCategoriaProductos(from);
+    } else if (msg.startsWith('CAT_')) {
+      await sendSubcategoria(from, msg);
+    } else if (msg === 'FOOD_TRUCK') {
+      await sendFoodTruck(from);
+    } else if (msg === 'CATALOGO_PDF') {
+      await sendCatalogoCompleto(from);
+    } else if (msg === 'INICIO_PEDIDO') {
+      await sendInicioPedidoOpciones(from);
+    } else if (msg.startsWith('PEDIDO_')) {
+      await pedirDatosDelCliente(from, msg.replace('PEDIDO_', ''));
+    } else if (msg.startsWith('CONFIRMAR_')) {
+      await sendPedidoConfirmacionCliente(from, msg.replace('CONFIRMAR_', ''));
+    } else {
+      await sendRespuestaIA(from, msg);
+    }
 
-    await sendRespuestaIA(from, msg);
     res.sendStatus(200);
-
   } catch (err) {
-    console.error("?? WEBHOOK ERROR:", err);
+    console.error('?? WEBHOOK ERROR:', err);
     res.sendStatus(500);
   }
 });
 
-// ================= START SERVER =================
-const PORT = process.env.PORT || 3000;
-app.listen(PORT, "0.0.0.0", () => {
-  console.log(`?? Server running on port ${PORT}`);
-});
+// SAFETY NET
+process.on('unhandledRejection', err => console.error(err));
+process.on('uncaughtException', err => console.error(err));
 
-// ================= SAFETY NET =================
-process.on("uncaughtException", err => console.error("UNCAUGHT:", err));
-process.on("unhandledRejection", err => console.error("UNHANDLED:", err));
+// START
+const PORT = process.env.PORT || 3000;
+app.listen(PORT, () => {
+  console.log('=== SERVER FILE LOADED ===');
+  console.log('?? Server running on port ' + PORT);
+});
